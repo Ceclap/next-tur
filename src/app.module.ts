@@ -1,16 +1,16 @@
 import { Module, ValidationPipe } from '@nestjs/common';
-import { TariModule } from './module/tari/tari.module';
 import { AuthModule } from './module/auth/auth.module';
 import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { LoggingInterceptor } from './common/Interceptor/logging.interceptor';
 import { HttpExceptionFilter } from './common/httpException.filter';
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule } from "@nestjs/config";
+import { CountryModule } from './module/country/country.module';
+import { HotelModule } from './module/hotel/hotel.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    TariModule,
     AuthModule,
     TypeOrmModule.forRoot({
     type: 'postgres',
@@ -23,7 +23,9 @@ import { ConfigModule } from "@nestjs/config";
     entities: [`${__dirname}/core/database/entity/*.entity{.ts,.js}`],
     migrationsTableName: 'migrations',
     migrations: [`${__dirname}/core/database/migrations/*{.ts,.js}`],
-  }),],
+  }),
+    CountryModule,
+    HotelModule,],
   providers: [
     {
       provide: APP_FILTER,
