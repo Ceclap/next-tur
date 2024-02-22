@@ -1,0 +1,30 @@
+version: '3'
+services:
+  my_postgres:
+    image: postgres:latest
+    container_name: next_tur
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: superUser
+      POSTGRES_PASSWORD: eYux2e3e
+      POSTGRES_DB: next_tur
+  minio:
+    image: bitnami/minio
+    container_name: minio-media
+    restart: always
+    volumes:
+      - minio:/data
+    environment:
+      - MINIO_ACCESS_KEY=minio
+      - MINIO_SECRET_KEY=miniosecret
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+
+volumes:
+  pgdata:
+    driver: local
+  minio:
+    driver: local
+
