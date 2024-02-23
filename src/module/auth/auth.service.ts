@@ -73,6 +73,10 @@ export class AuthService {
     const user = await this.authRepository.findOneOrFail({
         where: critery
       },
+    ).catch(
+      () => {
+        throw new HttpException('User not found', 404)
+      }
     )
 
     const passCompareRes = await bcrypt.compare(

@@ -1,9 +1,22 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UploadedFile,
+  UseGuards,
+  UseInterceptors
+} from "@nestjs/common";
 import { AuthGuard } from "../../common/guards/auth.guard";
 import { CountryDto } from "../../common/dto/country.dto";
-import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiParam, ApiTags } from "@nestjs/swagger";
 import { HotelService } from "./hotel.service";
 import { HotelDto } from "../../common/dto/hotel.dto";
+import { FileInterceptor } from "@nestjs/platform-express";
+import { ImageUploadDto } from "../../common/dto/imageUpload.dto";
 
 @ApiTags('Hotel')
 @Controller('hotel')
@@ -44,4 +57,30 @@ export class HotelController {
   async delete(@Param() id: { id: string }) {
     return await this.hotelService.delete(id);
   }
+
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @UseInterceptors(FileInterceptor('image'))
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    type: ImageUploadDto,
+  })
+  @ApiParam({ name: 'id', type: String, description: 'UUID of the Profile' })
+  @Post('photo/:id')
+  async uploadPhoto(
+    @Param() id: { id: string },
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return await this.hotelService.uploadPhoto(file, id);
+  }
+
+
+  @ApiParam({ name: 'id', type: String, description: 'UUID of the Profile' })
+  @Get('photo/:id')
+  async getPhoto(
+    @Param() id: { id: string },
+  ) {
+    return await this.hotelService.getPhoto(id);
+  }
+
 }

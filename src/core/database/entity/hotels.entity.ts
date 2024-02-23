@@ -37,4 +37,7 @@ export class Hotels {
 
   @Column()
   food!: FoodEnum;
+
+  @Column({default: ''})
+  photo!: string;
 }

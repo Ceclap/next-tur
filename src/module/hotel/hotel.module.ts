@@ -5,12 +5,23 @@ import { JwtService } from "@nestjs/jwt";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Auth } from "../../core/database/entity/auth.entity";
 import { Hotels } from "../../core/database/entity/hotels.entity";
+import { ImageService } from "../image/image.service";
+import { ConfigModule } from "@nestjs/config";
+import { NestMinioModule } from "nestjs-minio";
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Hotels]),
+    ConfigModule.forRoot(),
+    NestMinioModule.register({
+      endPoint: '127.0.0.1',
+      port: 9000,
+      useSSL: false,
+      accessKey: 'minio',
+      secretKey: 'miniosecret',
+    }),
   ],
   controllers: [HotelController],
-  providers: [HotelService, JwtService]
+  providers: [HotelService, JwtService, ImageService]
 })
 export class HotelModule {}
