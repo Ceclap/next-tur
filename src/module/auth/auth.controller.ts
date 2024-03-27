@@ -48,7 +48,6 @@ export class AuthController {
     console.log(payload);
     return {
       access_token: payload.access_token,
-      refresh_token: payload.refresh_token,
       user: payload.user
     }
   }

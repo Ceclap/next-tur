@@ -6,4 +6,9 @@ export class CountryDto {
   @IsString()
   @IsNotEmpty()
   name!: string;
+
+  @ApiProperty({ example: 'Descriere' })
+  @IsString()
+  @IsOptional()
+  description!: string;
 }

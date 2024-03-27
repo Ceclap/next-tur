@@ -9,7 +9,15 @@ export class Country {
   @Column({ unique: true })
   name!: string;
 
-  @OneToMany(() => Hotels, (hotel) => hotel.country)
-  menu!: Hotels[];
+  @Column({ default: '' })
+  description!: string;
 
+  @Column({ default: '' })
+  flag!: string;
+
+  @Column({ default: '' })
+  mainPhoto!: string;
+
+  @OneToMany(() => Hotels, (hotel) => hotel.country)
+  hotels!: Hotels[];
 }

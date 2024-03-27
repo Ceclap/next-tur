@@ -2,6 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColum
 import { Country } from "./country.entity";
 import { TransportEnum } from "../../../common/enum/transport.enum";
 import { FoodEnum } from "../../../common/enum/food.enum";
+import { Photos } from "./photo.entity";
 
 @Entity()
 export class Hotels {
@@ -11,26 +12,23 @@ export class Hotels {
   @Column({ unique: true })
   name!: string;
 
-  // @Column()
-  // country_id!: string;
-  //
-  // @ManyToOne(() => Country, (country) => country.id, {
-  //   onDelete: 'CASCADE',
-  // })
-  // @JoinColumn({ name: 'country_id' })
-  // country!: Country;
+  @Column()
+  country_id!: string;
+
+  @ManyToOne(() => Country, (country) => country.id, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'country_id' })
+  country!: Country;
 
   @Column()
-  country!: string;
-
-  @Column()
-  persons!: number;
+  startDate!: string;
 
   @Column()
   transport!: TransportEnum;
 
   @Column()
-  startDate!: string;
+  toHotel!: boolean;
 
   @Column()
   period!: number;
@@ -38,6 +36,13 @@ export class Hotels {
   @Column()
   food!: FoodEnum;
 
+  @Column()
+  persons!: number;
+
   @Column({default: ''})
-  photo!: string;
+  mainPhoto!: string;
+
+  // @OneToMany(() => Photos, (photo) => photo.hotel)
+  // photos!: Photos[];
+
 }

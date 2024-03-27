@@ -8,10 +8,11 @@ import { Hotels } from "../../core/database/entity/hotels.entity";
 import { ImageService } from "../image/image.service";
 import { ConfigModule } from "@nestjs/config";
 import { NestMinioModule } from "nestjs-minio";
+import { Country } from "../../core/database/entity/country.entity";
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Hotels]),
+    TypeOrmModule.forFeature([Hotels,Country]),
     ConfigModule.forRoot(),
     NestMinioModule.register({
       endPoint: '127.0.0.1',

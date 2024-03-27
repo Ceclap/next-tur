@@ -92,13 +92,9 @@ export class AuthService {
     }
 
     const access_token = this.jwtService.sign({ id: user.id }, {
-      secret: process.env['JWT_SECRET'],
-      expiresIn: process.env['JWT_EXPIRES_IN'],
+      secret: process.env['JWT_SECRET']
     })
-    const refresh_token = this.jwtService.sign({ id: user.id }, {
-      secret: process.env['JWT_REFRESH_SECRET'],
-      expiresIn: process.env['JWT_REFRESH_EXPIRES_IN']
-    })
+
 
     return {
       user: {
@@ -107,7 +103,6 @@ export class AuthService {
         username: user.username,
       },
       access_token: access_token,
-      refresh_token: refresh_token
     }
   }
 
