@@ -67,8 +67,20 @@ async getAll() {
   }
 
   async update(id: {id: string}, data: UpdateHotelDto){
+    let country = undefined
+    if(data.country != undefined){
+      country = await this.countryRepository.findOneOrFail({
+        where: {id: data.country}
+      }).catch(()=>
+        {
+          throw new HttpException('Country not found', 404)
+        }
+      )
+    }
+    console.log(country);
     await this.hotelRepository.update(id, {
       name: data.name,
+      country: country,
       persons: data.persons,
       transport: data.transport,
       startDate: data.startDate,

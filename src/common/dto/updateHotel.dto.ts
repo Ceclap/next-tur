@@ -9,6 +9,11 @@ export class UpdateHotelDto {
   @IsOptional()
   name!: string;
 
+  @ApiProperty({ example: '9c02d733-5381-486c-ac84-abcb7d645d72' })
+  @IsUUID()
+  @IsOptional()
+  country!: string;
+
   @ApiProperty({ example: 4 })
   @IsNumber()
   @IsOptional()
