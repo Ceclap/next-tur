@@ -1,10 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common";
 import { CountryService } from "./country.service";
 import { AuthGuard } from "../../common/guards/auth.guard";
 import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
-import { RegisterDto } from "../../common/dto/register.dto";
 import { CountryDto } from "../../common/dto/country.dto";
-import { HotelDto } from "../../common/dto/hotel.dto";
+import { PaginationDto } from "../../common/dto/pagination.dto";
 
 @ApiTags('Country')
 @Controller('country')
@@ -26,8 +25,8 @@ export class CountryController {
   }
 
   @Get()
-  async getAll() {
-    return await this.countryService.getAll();
+  async getAll(@Query() data: PaginationDto) {
+    return await this.countryService.getAll(data);
   }
 
   @ApiBearerAuth()

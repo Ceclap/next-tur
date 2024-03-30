@@ -1,5 +1,6 @@
-import { IsNotEmpty, IsOptional, IsString } from "class-validator";
-import { ApiProperty } from "@nestjs/swagger";
+import { IsBoolean, IsEnum, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { TravelTypeEnum } from "../enum/travelType.enum";
 
 export class CountryDto {
   @ApiProperty({ example: 'Turcia' })
@@ -11,4 +12,16 @@ export class CountryDto {
   @IsString()
   @IsOptional()
   description!: string;
+
+  @ApiPropertyOptional({ enum: TravelTypeEnum })
+  @IsEnum(TravelTypeEnum)
+  @IsOptional()
+  travelType!: TravelTypeEnum;
+
+  @ApiProperty({ example: false })
+  @IsBoolean()
+  @IsOptional()
+  offers!: boolean;
+
+
 }

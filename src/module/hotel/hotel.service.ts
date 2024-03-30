@@ -38,6 +38,7 @@ export class HotelService {
         period: data.period,
         food: data.food,
         toHotel: data.toHotel,
+        isActive: data.isActive
       }).catch((err)=>
       {
         console.log(err)
@@ -48,7 +49,9 @@ export class HotelService {
   }
 
 async getAll() {
-    return await this.hotelRepository.find().catch(()=>
+    return await this.hotelRepository.find({
+      where: { isActive: true }
+    }).catch(()=>
       {
         throw new HttpException('Hotels not found', 404)
       }
@@ -77,7 +80,6 @@ async getAll() {
         }
       )
     }
-    console.log(country);
     await this.hotelRepository.update(id, {
       name: data.name,
       country: country,
@@ -87,6 +89,7 @@ async getAll() {
       period: data.period,
       food: data.food,
       toHotel: data.toHotel,
+      isActive: data.isActive
     }).catch((err)=>
       {
         console.log(err);
@@ -107,6 +110,8 @@ async getAll() {
       message: 'success'
     }
   }
+
+
 
 
   // async uploadPhoto(file: Express.Multer.File, id: {id: string}){

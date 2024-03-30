@@ -45,4 +45,9 @@ export class HotelDto {
   @IsNotEmpty()
   toHotel!: boolean;
 
+  @ApiPropertyOptional({ example: true })
+  @IsBoolean()
+  @IsOptional()
+  isActive!: boolean;
+
 }

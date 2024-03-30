@@ -1,8 +1,9 @@
 import { HttpException, Injectable } from "@nestjs/common";
 import { CountryDto } from "../../common/dto/country.dto";
-import { Repository } from "typeorm";
+import { Like, Repository } from "typeorm";
 import { Country } from "../../core/database/entity/country.entity";
 import { InjectRepository } from "@nestjs/typeorm";
+import { PaginationDto } from "../../common/dto/pagination.dto";
 
 @Injectable()
 export class CountryService {
@@ -31,8 +32,16 @@ export class CountryService {
     )
   }
 
-  async getAll(){
-    return await this.countryRepository.find().catch(()=>
+  async getAll(pagination: PaginationDto){
+    return await this.countryRepository.find({
+      order: {
+        name: pagination.order,
+      },
+      take: pagination.take,
+      skip: pagination.skip,
+      where: { name: Like(`%${pagination.name}%`),
+        travelType: pagination.type}})
+      .catch(()=>
       {
         throw new HttpException('Country not found', 404)
       }

@@ -42,7 +42,9 @@ export class Hotels {
   @Column({default: ''})
   mainPhoto!: string;
 
-  // @OneToMany(() => Photos, (photo) => photo.hotel)
-  // photos!: Photos[];
+  @OneToMany(() => Photos, (photo) => photo.hotel)
+  photos!: Photos[];
 
+  @Column({default: true})
+  isActive!: boolean;
 }
