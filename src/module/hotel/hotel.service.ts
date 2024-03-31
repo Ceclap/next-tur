@@ -6,6 +6,7 @@ import { Hotels } from "../../core/database/entity/hotels.entity";
 import { ImageService } from "../image/image.service";
 import { UpdateHotelDto } from "../../common/dto/updateHotel.dto";
 import { Country } from "../../core/database/entity/country.entity";
+import { Photos } from "../../core/database/entity/photo.entity";
 
 
 @Injectable()
@@ -16,6 +17,8 @@ export class HotelService {
     private readonly hotelRepository: Repository<Hotels>,
     @InjectRepository(Country)
     private readonly countryRepository: Repository<Country>,
+    @InjectRepository(Photos)
+    private readonly photosRepository: Repository<Photos>,
     private imageService: ImageService
   ) {}
 
@@ -44,6 +47,7 @@ export class HotelService {
 
 async getAll() {
     return await this.hotelRepository.find({
+      relations: { photos: true },
       where: { isActive: true }
     }).catch(()=>
       {
@@ -55,6 +59,7 @@ async getAll() {
   async get(id: {id: string}){
 
     return await this.hotelRepository.findOneOrFail({
+      relations: { photos: true },
       where: id
     }).catch(()=>
       {
@@ -98,9 +103,37 @@ async getAll() {
       message: 'success'
     }
   }
+  async uploadPhoto(file: Express.Multer.File, id: {id: string}){
+    const hotel =  await this.hotelRepository.findOneOrFail({
+      where: id
+    }).catch(()=>
+      {
+        throw new HttpException('Hotel not found', 404)
+      }
+    )
+    const name = await this.imageService.upload(file);
 
-
-
-
-
+    await this.photosRepository.save({
+      hotel: hotel,
+      name: name
+    }).catch(()=>
+      {
+        throw new HttpException('Error to add to DB', 500)
+      }
+    )
+    return {
+      message: 'success'
+    }
+  }
+  async uploadMainPhoto(file: Express.Multer.File, id: {id: string}){
+    const name = await this.imageService.upload(file);
+    await this.countryRepository.update(id, {mainPhoto: name}).catch(()=>
+      {
+        throw new HttpException('Error to update to DB', 500)
+      }
+    )
+    return {
+      message: 'success'
+    }
+  }
 }

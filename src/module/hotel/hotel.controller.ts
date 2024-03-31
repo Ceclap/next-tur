@@ -59,29 +59,34 @@ export class HotelController {
     return await this.hotelService.delete(id);
   }
 
-  // @ApiBearerAuth()
-  // @UseGuards(AuthGuard)
-  // @UseInterceptors(FileInterceptor('image'))
-  // @ApiConsumes('multipart/form-data')
-  // @ApiBody({
-  //   type: ImageUploadDto,
-  // })
-  // @ApiParam({ name: 'id', type: String, description: 'UUID of the Profile' })
-  // @Post('photo/:id')
-  // async uploadPhoto(
-  //   @Param() id: { id: string },
-  //   @UploadedFile() file: Express.Multer.File,
-  // ) {
-  //   return await this.hotelService.uploadPhoto(file, id);
-  // }
-  //
-  //
-  // @ApiParam({ name: 'id', type: String, description: 'UUID of the Profile' })
-  // @Get('photo/:id')
-  // async getPhoto(
-  //   @Param() id: { id: string },
-  // ) {
-  //   return await this.hotelService.getPhoto(id);
-  // }
-
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @UseInterceptors(FileInterceptor('image'))
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    type: ImageUploadDto,
+  })
+  @ApiParam({ name: 'id', type: String, description: 'UUID of the Profile' })
+  @Post('photo/:id')
+  async uploadPhoto(
+    @Param() id: { id: string },
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return await this.hotelService.uploadPhoto(file, id);
+  }
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @UseInterceptors(FileInterceptor('image'))
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    type: ImageUploadDto,
+  })
+  @ApiParam({ name: 'id', type: String, description: 'UUID of the Profile' })
+  @Post('mainPhoto/:id')
+  async uploadMainPhoto(
+    @Param() id: { id: string },
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return await this.hotelService.uploadMainPhoto(file, id);
+  }
 }

@@ -9,10 +9,11 @@ import { ImageService } from "../image/image.service";
 import { ConfigModule } from "@nestjs/config";
 import { NestMinioModule } from "nestjs-minio";
 import { Country } from "../../core/database/entity/country.entity";
+import { Photos } from "../../core/database/entity/photo.entity";
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Hotels,Country]),
+    TypeOrmModule.forFeature([Hotels,Country,Photos]),
     ConfigModule.forRoot(),
     NestMinioModule.register({
       endPoint: '127.0.0.1',

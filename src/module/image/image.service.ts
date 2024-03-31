@@ -106,7 +106,7 @@ export class ImageService {
       console.log(err);
       throw new HttpException('Error uploading image', 500)
     })
-    return fileName;
+    return `localhost:9000/${process.env['BUCKET_NAME']}/${fileName}`
   }
 
   async getFromS3(name: string) {
