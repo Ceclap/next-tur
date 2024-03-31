@@ -14,36 +14,50 @@ export class HotelDto {
   @IsNotEmpty()
   country!: string;
 
-  @ApiProperty({ example: 4 })
+  @ApiProperty({ example: 5 })
   @IsNumber()
   @IsNotEmpty()
-  persons!: number;
+  stars!: number;
 
-  @ApiPropertyOptional({ enum: TransportEnum })
-  @IsEnum(TransportEnum)
+  @ApiProperty({ example: 'Pamporovo' })
+  @IsString()
   @IsNotEmpty()
-  transport!: TransportEnum;
+  city!: string;
 
   @ApiProperty({ example: '20.03.2024' })
   @IsString()
   @IsNotEmpty()
   startDate!: string;
 
-
   @ApiProperty({ example: 4 })
   @IsNumber()
   @IsNotEmpty()
   period!: number;
 
-  @ApiPropertyOptional({ enum: FoodEnum })
-  @IsEnum(FoodEnum)
-  @IsNotEmpty()
-  food!: FoodEnum;
-
   @ApiPropertyOptional({ example: true })
   @IsBoolean()
   @IsNotEmpty()
   toHotel!: boolean;
+
+  @ApiPropertyOptional({ enum: TransportEnum })
+  @IsEnum(TransportEnum)
+  @IsNotEmpty()
+  transport!: TransportEnum;
+
+  @ApiProperty({ example: 4 })
+  @IsNumber()
+  @IsNotEmpty()
+  persons!: number;
+
+  @ApiProperty({ example: true })
+  @IsBoolean()
+  @IsNotEmpty()
+  insurance!: boolean;
+
+  @ApiPropertyOptional({ enum: FoodEnum })
+  @IsEnum(FoodEnum)
+  @IsNotEmpty()
+  food!: FoodEnum;
 
   @ApiPropertyOptional({ example: true })
   @IsBoolean()

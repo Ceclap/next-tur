@@ -14,36 +14,50 @@ export class UpdateHotelDto {
   @IsOptional()
   country!: string;
 
-  @ApiProperty({ example: 4 })
+  @ApiProperty({ example: 5 })
   @IsNumber()
   @IsOptional()
-  persons!: number;
+  stars!: number;
 
-  @ApiPropertyOptional({ enum: TransportEnum })
-  @IsEnum(TransportEnum)
+  @ApiProperty({ example: 'Pamporovo' })
+  @IsString()
   @IsOptional()
-  transport!: TransportEnum;
+  city!: string;
 
   @ApiProperty({ example: '20.03.2024' })
   @IsString()
   @IsOptional()
   startDate!: string;
 
-
   @ApiProperty({ example: 4 })
   @IsNumber()
   @IsOptional()
   period!: number;
 
-  @ApiPropertyOptional({ enum: FoodEnum })
-  @IsEnum(FoodEnum)
-  @IsOptional()
-  food!: FoodEnum;
-
   @ApiPropertyOptional({ example: true })
   @IsBoolean()
   @IsOptional()
   toHotel!: boolean;
+
+  @ApiPropertyOptional({ enum: TransportEnum })
+  @IsEnum(TransportEnum)
+  @IsOptional()
+  transport!: TransportEnum;
+
+  @ApiProperty({ example: 4 })
+  @IsNumber()
+  @IsOptional()
+  persons!: number;
+
+  @ApiProperty({ example: true })
+  @IsBoolean()
+  @IsOptional()
+  insurance!: boolean;
+
+  @ApiPropertyOptional({ enum: FoodEnum })
+  @IsEnum(FoodEnum)
+  @IsOptional()
+  food!: FoodEnum;
 
   @ApiPropertyOptional({ example: true })
   @IsBoolean()

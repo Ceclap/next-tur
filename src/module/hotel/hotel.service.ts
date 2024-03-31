@@ -20,8 +20,9 @@ export class HotelService {
   ) {}
 
   async create(data: HotelDto) {
-    const country = await this.countryRepository.findOneOrFail({
-      where: {id: data.country}
+    const { country, ...info } = data
+    const Country = await this.countryRepository.findOneOrFail({
+      where: {id: country}
     }).catch(()=>
       {
         throw new HttpException('Country not found', 404)
@@ -30,15 +31,8 @@ export class HotelService {
 
     const save = await this.hotelRepository.save(
       {
-        name: data.name,
-        country: country,
-        persons: data.persons,
-        transport: data.transport,
-        startDate: data.startDate,
-        period: data.period,
-        food: data.food,
-        toHotel: data.toHotel,
-        isActive: data.isActive
+        ...info,
+        country: Country
       }).catch((err)=>
       {
         console.log(err)
@@ -70,10 +64,11 @@ async getAll() {
   }
 
   async update(id: {id: string}, data: UpdateHotelDto){
-    let country = undefined
+    const { country, ...info } = data
+    let Country = undefined
     if(data.country != undefined){
-      country = await this.countryRepository.findOneOrFail({
-        where: {id: data.country}
+       Country = await this.countryRepository.findOneOrFail({
+        where: {id: country}
       }).catch(()=>
         {
           throw new HttpException('Country not found', 404)
@@ -81,15 +76,8 @@ async getAll() {
       )
     }
     await this.hotelRepository.update(id, {
-      name: data.name,
-      country: country,
-      persons: data.persons,
-      transport: data.transport,
-      startDate: data.startDate,
-      period: data.period,
-      food: data.food,
-      toHotel: data.toHotel,
-      isActive: data.isActive
+      ...info,
+      country: Country
     }).catch((err)=>
       {
         console.log(err);
@@ -114,26 +102,5 @@ async getAll() {
 
 
 
-  // async uploadPhoto(file: Express.Multer.File, id: {id: string}){
-  //   const name = await this.imageService.upload(file);
-  //   await this.hotelRepository.update(id, {photos: name}).catch(()=>
-  //     {
-  //       throw new HttpException('Error to update to DB', 500)
-  //     }
-  //   )
-  //   return {
-  //     message: 'success'
-  //   }
-  // }
 
-  // async getPhoto(id: {id: string}){
-  //   const hotel = await this.hotelRepository.findOneOrFail({
-  //     where: id
-  //   }).catch(()=>
-  //     {
-  //       throw new HttpException('Hotel not found', 404)
-  //     }
-  //   )
-  //   return await this.imageService.getFromS3(hotel.photo)
-  // }
 }

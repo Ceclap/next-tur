@@ -22,22 +22,31 @@ export class Hotels {
   country!: Country;
 
   @Column()
+  stars!: number;
+
+  @Column()
+  city!: string;
+
+  @Column()
   startDate!: string;
-
-  @Column()
-  transport!: TransportEnum;
-
-  @Column()
-  toHotel!: boolean;
 
   @Column()
   period!: number;
 
   @Column()
-  food!: FoodEnum;
+  toHotel!: boolean;
+
+  @Column()
+  transport!: TransportEnum;
 
   @Column()
   persons!: number;
+
+  @Column()
+  insurance!: boolean;
+
+  @Column()
+  food!: FoodEnum;
 
   @Column({default: ''})
   mainPhoto!: string;

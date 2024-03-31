@@ -4,6 +4,7 @@ import { Like, Repository } from "typeorm";
 import { Country } from "../../core/database/entity/country.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { PaginationDto } from "../../common/dto/pagination.dto";
+import { ImageService } from "../image/image.service";
 
 @Injectable()
 export class CountryService {
@@ -11,6 +12,7 @@ export class CountryService {
   constructor(
     @InjectRepository(Country)
     private readonly countryRepository: Repository<Country>,
+    private imageService: ImageService
   ) {
   }
   async create(data: CountryDto) {
@@ -64,6 +66,47 @@ export class CountryService {
     )
     return {
       message: 'success'
+    }
+  }
+
+  async uploadPhoto(file: Express.Multer.File, id: {id: string}, type: string){
+    const name = await this.imageService.upload(file);
+    let update;
+    if(type == 'mainPhoto') {
+       update = { mainPhoto: name };
+    }
+    else{
+       update = { flag: name }
+    }
+    await this.countryRepository.update(id, update).catch(()=>
+      {
+        throw new HttpException('Error to update to DB', 500)
+      }
+    )
+    return {
+      message: 'success'
+    }
+  }
+
+  async getPhoto(id: {id: string}){
+    const country = await this.countryRepository.findOneOrFail({
+      where: id
+    }).catch(()=>
+      {
+        throw new HttpException('Hotel not found', 404)
+      }
+    )
+    let mainPhoto  = undefined
+    let flag  = undefined
+    if(country.mainPhoto) {
+       mainPhoto = await this.imageService.getFromS3(country.mainPhoto)
+    }
+    if(country.flag) {
+      flag = await this.imageService.getFromS3(country.flag)
+    }
+    return {
+      mainPhoto: mainPhoto,
+      flag: flag
     }
   }
 }
