@@ -80,7 +80,7 @@ export class CountryController {
     @Param() id: { id: string },
     @UploadedFile() file: Express.Multer.File,
   ) {
-    return await this.countryService.uploadPhoto(file, id, 'mainPhoto');
+    return await this.countryService.uploadPhoto(file, id, 'flag');
   }
 
   @ApiParam({ name: 'id', type: String, description: 'UUID of the Profile' })
