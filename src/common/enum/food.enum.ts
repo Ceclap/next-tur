@@ -1,4 +1,7 @@
 export enum FoodEnum {
-  allInclusive = 'all Inclusive',
-  miculDejun = 'micul Dejun'
+  allInclusive = 'All Inclusive',
+  ultraAllInclusive = 'Ultra All Inclusive',
+  fara = 'Fără masă',
+  micDejun = 'Mic dejun'
 }
+
