@@ -35,6 +35,7 @@ export class CountryService {
   }
 
   async getAll(pagination: PaginationDto){
+    console.log(pagination.offer);
     return await this.countryRepository.find({
       order: {
         name: pagination.order,
@@ -42,7 +43,10 @@ export class CountryService {
       take: pagination.take,
       skip: pagination.skip,
       where: { name: Like(`%${pagination.name}%`),
-        travelType: pagination.type}})
+        travelType: pagination.type,
+        offers: pagination.offer
+      }
+    })
       .catch(()=>
       {
         throw new HttpException('Country not found', 404)

@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsEnum, IsInt, IsOptional, Max, Min, IsString } from 'class-validator';
+import { IsEnum, IsInt, IsOptional, Max, Min, IsString, IsBoolean } from "class-validator";
 import { Order } from '../enum/order.enum';
 import { TravelTypeEnum } from "../enum/travelType.enum";
 
@@ -44,12 +44,20 @@ export class PaginationDto {
 
   @ApiPropertyOptional({
     required: false,
-    default: '',
+    default: TravelTypeEnum.top,
   })
   @ApiPropertyOptional({ enum: TravelTypeEnum, default: TravelTypeEnum.litoral })
   @IsEnum(TravelTypeEnum)
   @IsOptional()
-  readonly type?: TravelTypeEnum  = TravelTypeEnum.litoral;
+  readonly type?: TravelTypeEnum  = undefined;
+
+  @ApiPropertyOptional({
+    required: false,
+  })
+  @Type(() => Boolean)
+  @IsBoolean()
+  @IsOptional()
+  readonly offer?: boolean;
 
   get skip(): number  {
     return (this.page - 1) * this.take;

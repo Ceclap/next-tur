@@ -7,6 +7,7 @@ import { ImageService } from "../image/image.service";
 import { UpdateHotelDto } from "../../common/dto/updateHotel.dto";
 import { Country } from "../../core/database/entity/country.entity";
 import { Photos } from "../../core/database/entity/photo.entity";
+import process from "process";
 
 
 @Injectable()
@@ -127,7 +128,8 @@ async getAll() {
   }
   async uploadMainPhoto(file: Express.Multer.File, id: {id: string}){
     const name = await this.imageService.upload(file);
-    await this.countryRepository.update(id, {mainPhoto: name}).catch(()=>
+    const mainPhoto = `localhost:9000/${process.env['BUCKET_NAME']}/${name}`
+      await this.hotelRepository.update(id, {mainPhoto: mainPhoto}).catch(()=>
       {
         throw new HttpException('Error to update to DB', 500)
       }

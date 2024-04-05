@@ -40,6 +40,7 @@ export class CountryController {
 
   @Get()
   async getAll(@Query() data: PaginationDto) {
+    console.log(data);
     return await this.countryService.getAll(data);
   }
 
