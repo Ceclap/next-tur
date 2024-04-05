@@ -137,4 +137,22 @@ async getAll() {
       message: 'success'
     }
   }
+
+  async getPhoto(id: {id: string}){
+    const hotel = await this.hotelRepository.findOneOrFail({
+      relations: { photos: true },
+      where: id
+    }).catch(()=>
+      {
+        throw new HttpException('Hotel not found', 404)
+      }
+    )
+    const photos = hotel.photos.map((photo) => {
+        return photo.name = `localhost:9000/${process.env['BUCKET_NAME']}/${photo.name}`
+    })
+    return {
+      mainPhoto: hotel.mainPhoto,
+      photos: photos
+    }
+  }
 }

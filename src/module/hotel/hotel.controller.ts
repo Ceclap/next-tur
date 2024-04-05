@@ -89,4 +89,12 @@ export class HotelController {
   ) {
     return await this.hotelService.uploadMainPhoto(file, id);
   }
+
+  @ApiParam({ name: 'id', type: String, description: 'UUID of the Profile' })
+  @Get('photo/:id')
+  async getPhoto(
+    @Param() id: { id: string },
+  ) {
+    return await this.hotelService.getPhoto(id);
+  }
 }
