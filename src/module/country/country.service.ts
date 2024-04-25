@@ -3,8 +3,8 @@ import { CountryDto } from "../../common/dto/country.dto";
 import { Like, Repository } from "typeorm";
 import { Country } from "../../core/database/entity/country.entity";
 import { InjectRepository } from "@nestjs/typeorm";
-import { PaginationDto } from "../../common/dto/pagination.dto";
 import { ImageService } from "../image/image.service";
+import { PaginationCDto } from "../../common/dto/paginationC.dto";
 
 @Injectable()
 export class CountryService {
@@ -34,14 +34,8 @@ export class CountryService {
     )
   }
 
-  async getAll(pagination: PaginationDto){
-    console.log(pagination.offer);
+  async getAll(pagination: PaginationCDto){
     return await this.countryRepository.find({
-      order: {
-        name: pagination.order,
-      },
-      take: pagination.take,
-      skip: pagination.skip,
       where: { name: Like(`%${pagination.name}%`),
         travelType: pagination.type,
         offers: pagination.offer

@@ -15,9 +15,9 @@ import { CountryService } from "./country.service";
 import { AuthGuard } from "../../common/guards/auth.guard";
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiParam, ApiTags } from "@nestjs/swagger";
 import { CountryDto } from "../../common/dto/country.dto";
-import { PaginationDto } from "../../common/dto/pagination.dto";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ImageUploadDto } from "../../common/dto/imageUpload.dto";
+import { PaginationCDto } from "../../common/dto/paginationC.dto";
 
 @ApiTags('Country')
 @Controller('country')
@@ -39,7 +39,7 @@ export class CountryController {
   }
 
   @Get()
-  async getAll(@Query() data: PaginationDto) {
+  async getAll(@Query() data: PaginationCDto) {
     console.log(data);
     return await this.countryService.getAll(data);
   }

@@ -12,7 +12,7 @@ export class HotelDto {
   @ApiProperty({ example: '9c02d733-5381-486c-ac84-abcb7d645d72' })
   @IsUUID()
   @IsNotEmpty()
-  country!: string;
+  country_id!: string;
 
   @ApiProperty({ example: 5 })
   @IsNumber()

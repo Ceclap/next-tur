@@ -23,9 +23,9 @@ export class HotelService {
   ) {}
 
   async create(data: HotelDto) {
-    const { country, ...info } = data
+    const { country_id, ...info } = data
     const Country = await this.countryRepository.findOneOrFail({
-      where: {id: country}
+      where: {id: country_id}
     }).catch(()=>
       {
         throw new HttpException('Country not found', 404)
@@ -127,8 +127,7 @@ async getAll() {
   }
   async uploadMainPhoto(file: Express.Multer.File, id: {id: string}){
     const name = await this.imageService.upload(file);
-    const mainPhoto = `localhost:9000/${process.env['BUCKET_NAME']}/${name}`
-      await this.hotelRepository.update(id, {mainPhoto: mainPhoto}).catch(()=>
+      await this.hotelRepository.update(id, {mainPhoto: name}).catch(()=>
       {
         throw new HttpException('Error to update to DB', 500)
       }
@@ -150,8 +149,14 @@ async getAll() {
     const photos = hotel.photos.map((photo) => {
         return photo.name = `localhost:9000/${process.env['BUCKET_NAME']}/${photo.name}`
     })
+    if(hotel.mainPhoto != ''){
+      console.log('Main:',hotel.mainPhoto);
+      return {
+        mainPhoto: `localhost:9000/${process.env['BUCKET_NAME']}/${hotel.mainPhoto}`,
+        photos: photos
+      }
+    }
     return {
-      mainPhoto: hotel.mainPhoto,
       photos: photos
     }
   }

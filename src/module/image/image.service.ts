@@ -3,6 +3,9 @@ import { InjectMinio } from 'nestjs-minio';
 import { Client } from 'minio';
 import * as crypto from 'crypto';
 import { DeleteImageDto } from "../../common/dto/deleteImage.dto";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Photos } from "../../core/database/entity/photo.entity";
+import { Repository } from "typeorm";
 
 @Injectable()
 export class ImageService {
@@ -10,6 +13,8 @@ export class ImageService {
 
   constructor(
     @InjectMinio() private readonly minioClient: Client,
+    @InjectRepository(Photos)
+    private readonly photosRepository: Repository<Photos>,
   ) {
     this.initializeBucketPolicy();
   }
@@ -122,14 +127,19 @@ export class ImageService {
     return await result;
   }
 
-  async deleteImage(data: DeleteImageDto) {
-    this.minioClient.removeObject(this.bucketName, data.name, async (err) => {
+  async deleteImage(id: { id: string }) {
+    const photo = await this.photosRepository.findOneOrFail({
+      where: id
+    }).catch(() => {
+      throw new HttpException('Photo not found', 404)
+    })
+    this.minioClient.removeObject(this.bucketName, photo.name, async (err) => {
       if (err) {
         console.error('Eroare la ștergerea fișierului:', err);
       } else {
-//sterge din baza de date
-        console.log('Fișierul a fost șters cu succes!');
-      }
+        await this.photosRepository.delete(id).catch(() => {
+          throw new HttpException('Photo not found', 404)
+        })      }
     });
     return { message: 'Succes' };
   }

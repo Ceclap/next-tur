@@ -7,6 +7,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule } from "@nestjs/config";
 import { CountryModule } from './module/country/country.module';
 import { HotelModule } from './module/hotel/hotel.module';
+import { ImageModule } from "./module/image/image.module";
 
 @Module({
   imports: [
@@ -25,7 +26,9 @@ import { HotelModule } from './module/hotel/hotel.module';
     migrations: [`${__dirname}/core/database/migrations/*{.ts,.js}`],
   }),
     CountryModule,
-    HotelModule,],
+    HotelModule,
+    ImageModule,
+  ],
   providers: [
     {
       provide: APP_FILTER,

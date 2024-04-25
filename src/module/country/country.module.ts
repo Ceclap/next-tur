@@ -8,10 +8,11 @@ import { ConfigModule } from "@nestjs/config";
 import { Country } from "../../core/database/entity/country.entity";
 import { ImageService } from "../image/image.service";
 import { NestMinioModule } from "nestjs-minio";
+import { Photos } from "../../core/database/entity/photo.entity";
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Country]),
+    TypeOrmModule.forFeature([Country, Hotels, Photos]),
     NestMinioModule.register({
       endPoint: '127.0.0.1',
       port: 9000,
