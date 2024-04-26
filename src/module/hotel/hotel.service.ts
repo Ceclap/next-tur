@@ -147,7 +147,9 @@ async getAll() {
       }
     )
     const photos = hotel.photos.map((photo) => {
-        return photo.name = `localhost:9000/${process.env['BUCKET_NAME']}/${photo.name}`
+      photo.name = `localhost:9000/${process.env['BUCKET_NAME']}/${photo.name}`
+      delete photo.hotel_id
+      return photo
     })
     if(hotel.mainPhoto != ''){
       console.log('Main:',hotel.mainPhoto);
