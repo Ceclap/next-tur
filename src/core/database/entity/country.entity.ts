@@ -7,7 +7,7 @@ export class Country {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @Column({ unique: true })
+  @Column({default: ''})
   name!: string;
 
   @Column({ default: '' })
